@@ -6,87 +6,41 @@ constant or messed up
 -------------------------------------------------------*/
 #include <stdio.h>
 #define SIZE 15
-/*------------------------------------------------------
-* Function Name - check_increasing_series
-*
-* Function Purpose - To check is the given series is increasing
-*
-* Parameters – int series[]
-*
-* Return Values - return 1 if increasing,else return 0
-*
-* Author - Gelman Paula
--------------------------------------------------------*/
-int check_increasing_series(int series[]){
-    for(int i=0;i<SIZE-1;i++){
-        if(series[i]>=series[i+1])
-            return 0;    
+
+int main(){
+
+    int prev;
+    int curr;
+    int is_increasing=1;
+    int is_decreasing=1;
+    int is_constant=1;
+
+    printf("Enter 15 numbers:\n");
+    scanf("%d", &prev);
+
+    for(int i=1; i<SIZE;i++){
+        scanf("%d", &curr);
+
+        if(curr!=prev)
+            is_constant =0;
+        if(curr<=prev)
+            is_increasing =0;
+        if(curr>=prev)
+            is_decreasing=0;
+       
+        if(!is_increasing && !is_decreasing && !is_constant) {
+            printf("The array is messed up");
+            return 0;  
+        }
+
+        prev=curr;
     }
-    return 1;
-}
+    if (is_constant)
+        printf("The array is constant");
+    else if (is_increasing)
+        printf("The array is increasing");
+    else if (is_decreasing)
+        printf("The array is decreasing");
 
-/*------------------------------------------------------
-* Function Name - check_decreasing_series
-*
-* Function Purpose - To check is the given series is idecreasing
-*
-* Parameters – int series[]
-*
-* Return Values - return 1 if decreasing,else return 0
-*
-* Author - Gelman Paula
--------------------------------------------------------*/
-int check_decreasing_series(int series[]){
-    for(int i=0;i<SIZE-1;i++){
-        if(series[i]<=series[i+1])
-            return 0;    
-    }
-    return 1;
-}
-
-/*------------------------------------------------------
-* Function Name - check_constant_series
-*
-* Function Purpose - To check is the given series is constant
-*
-* Parameters – int series[]
-*
-* Return Values - return 1 if constant,else return 0
-*
-* Author - Gelman Paula
--------------------------------------------------------*/
-int check_constant_series(int series[]){
-    for(int i=0;i<SIZE-1;i++){
-        if(series[i]!=series[i+1])
-            return 0;    
-    }
-    return 1;
-}
-
-
-
-int main() {
-    
-    int series[SIZE];
-    printf("Enter 15 numbers");
-
-    for(int j=0;j<SIZE;j++){
-        scanf("%d",&series[j]);
-    }
-
-   if(check_constant_series(series)==1){
-    printf("The array is constant");
-   } 
-   else{
-    if(check_decreasing_series(series)==1){
-        printf("The array is decreasing");}
-    else{
-    if(check_increasing_series(series)==1)
-         printf("The array is increasing");
-    else
-        printf("The array is messed up");
-
-}
-   }
- return 0;
+    return 0;
 }
