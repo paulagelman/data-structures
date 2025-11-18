@@ -5,7 +5,7 @@ constant or messed up
 * Author: Paula Gelman
 -------------------------------------------------------*/
 #include <stdio.h>
-
+#define SIZE 15
 /*------------------------------------------------------
 * Function Name - check_increasing_series
 *
@@ -18,8 +18,8 @@ constant or messed up
 * Author - Gelman Paula
 -------------------------------------------------------*/
 int check_increasing_series(int series[]){
-    for(int i=0;i<14;i++){
-        if(series[i]>series[i+1])
+    for(int i=0;i<SIZE-1;i++){
+        if(series[i]>=series[i+1])
             return 0;    
     }
     return 1;
@@ -37,8 +37,8 @@ int check_increasing_series(int series[]){
 * Author - Gelman Paula
 -------------------------------------------------------*/
 int check_decreasing_series(int series[]){
-    for(int i=0;i<14;i++){
-        if(series[i]<series[i+1])
+    for(int i=0;i<SIZE-1;i++){
+        if(series[i]<=series[i+1])
             return 0;    
     }
     return 1;
@@ -56,7 +56,7 @@ int check_decreasing_series(int series[]){
 * Author - Gelman Paula
 -------------------------------------------------------*/
 int check_constant_series(int series[]){
-    for(int i=0;i<14;i++){
+    for(int i=0;i<SIZE-1;i++){
         if(series[i]!=series[i+1])
             return 0;    
     }
@@ -67,10 +67,10 @@ int check_constant_series(int series[]){
 
 int main() {
     
-    int series[15];
+    int series[SIZE];
     printf("Enter 15 numbers");
 
-    for(int j=0;j<15;j++){
+    for(int j=0;j<SIZE;j++){
         scanf("%d",&series[j]);
     }
 
