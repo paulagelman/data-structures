@@ -3,6 +3,23 @@
 * Description: use operations on files
 * Author: Paula Gelman
 -------------------------------------------------------*/
+
+
+/*
+תיקונים לפי פונקציה:
+
+על מנת שlines לא יהיה 0 במקרה של שורה אחת print_file_lenght
+
+print_file_length עשיתי השמה לתו ch לכן תקין כעת
+
+שיניתי את כל הFILE[i]
+
+בcopy_file הוספתי בדיקת שגיאה ל-fputc
+
+תיקנתי הזחות shift בקובץ:)
+*/
+
+
 #include <stdio.h>
 
 #define WRONG_ARGUMENTS (-1)
@@ -39,7 +56,7 @@ int print_file( char *file_name) {
 
     int rc = 0;
     if (0 != fclose(file)) {
-    printf("Could not close %s.\n", file_name[1]);
+    printf("Could not close %s.\n", file_name);
     rc = CANNOT_CLOSE_INPUT_FILE;
     }
 
@@ -69,33 +86,42 @@ int copy_file(char * file_name , char * target_file)
     FILE * fp_in = fopen (file_name, "r");
 
     if (NULL == fp_in) {
-    printf("Could not open %s.\n", file_name[1]);
-    return CANNOT_OPEN_INPUT_FILE;
+        printf("Could not open %s.\n", file_name);
+        return CANNOT_OPEN_INPUT_FILE;
     }
 
     //open and (can) writing ('w')
     FILE * fp_out = fopen(target_file, "w");
 
     if (NULL == fp_out) {
-    printf("Could not open %s.\n", file_name[2]);
-    fclose(fp_in);
-    return CANNOT_OPEN_OUTPUT_FILE;
+        printf("Could not open %s.\n", target_file);
+        fclose(fp_in);
+        return CANNOT_OPEN_OUTPUT_FILE;
     }
 
     /* Copy contents */
     while (EOF != (c = fgetc(fp_in))) {
-    fputc(c, fp_out);
+
+        if (fputc(ch, fp_out) == EOF) {
+        perror("fputc failed");
+        fclose(fp_in);
+        fclose(fp_out);
+        return CANNOT_OPEN_OUTPUT_FILE; 
+        }
+
+        fputc(c, fp_out);
+
     }
     /* Close files */
     rc = 0;
 
     if (0 != fclose(fp_in)) {
-    printf("Could not close %s.\n", file_name[1]);
-    rc = CANNOT_CLOSE_INPUT_FILE;
+        printf("Could not close %s.\n", file_name);
+        rc = CANNOT_CLOSE_INPUT_FILE;
     }
     if (0 != fclose(fp_out)) {
-    printf("Could not close %s.\n", file_name[2]);
-    rc = CANNOT_CLOSE_OUTPUT_FILE;
+        printf("Could not close %s.\n", target_file);
+        rc = CANNOT_CLOSE_OUTPUT_FILE;
     }
 
     return rc;
@@ -130,9 +156,10 @@ int print_file_lenght( char *file_name) {
 
         /* scanning the file */
     while (EOF != (c = fgetc(file))) {
-    
-        /* '\n' is a sign to new line*/
-            if (ch == '\n')
+
+            char ch = (char)c;
+            
+            if (char!=NULL)
                 lines++;
 
             if (ch!=' ' && ch!='\n' && ch!='\t')
@@ -141,10 +168,19 @@ int print_file_lenght( char *file_name) {
         /*space,\n,\t :means that we are not in the word */
             if (ch ==' ' || ch =='\n' || ch =='\t') {
                 in_word = 0; 
+                lines++;
             } else if (in_word == 0) {
                 in_word = 1; // new word
                 words++;
-            }
+            }  
+
+        /* '\n' is a sign to new line*/
+            if (ch == '\n')
+                lines++;
+
+    
+
+       
     }
     printf("%d",lines);
     printf("%d",words);
@@ -152,8 +188,8 @@ int print_file_lenght( char *file_name) {
 
     rc = 0;
     if (0 != fclose(file)) {
-    printf("Could not close %s.\n", file_name[1]);
-    rc = CANNOT_CLOSE_INPUT_FILE;
+        printf("Could not close %s.\n", file_name);
+        rc = CANNOT_CLOSE_INPUT_FILE;
     }
 
     return rc;
@@ -198,12 +234,12 @@ int delete_line(char *file_name,int line_to_delete){
     int rc = 0;
 
     if (0 != fclose(file)) {
-    printf("Could not close %s.\n", file_name[1]);
-    rc = CANNOT_CLOSE_INPUT_FILE;
+        printf("Could not close %s.\n", file_name);
+        rc = CANNOT_CLOSE_INPUT_FILE;
     }
     if (0 != fclose(temp)) {
-    printf("Could not close %s.\n", file_name[2]);
-    rc = CANNOT_CLOSE_OUTPUT_FILE;
+        printf("Could not close %s.\n", file_name);
+        rc = CANNOT_CLOSE_OUTPUT_FILE;
     }
 
 return rc;
