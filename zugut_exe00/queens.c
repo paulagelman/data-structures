@@ -13,6 +13,8 @@
 #define QUEEN_CELL ('O')
 #define DEFUALT_QUEEN_VALUE (-1)
 
+
+
 typedef struct point_s{
     int x_axis;
     int y_axis;
@@ -20,6 +22,7 @@ typedef struct point_s{
 
 char board[BOARD_SIZE][BOARD_SIZE] = {0}; //game's board
 point_t queens[QUEENS_COUNT] = {0}; //queen's points
+int solutions_count = 0;     
 
 
 /*------------------------------------------------------
@@ -106,10 +109,6 @@ int solve_problem(int queen_count) {
         return 1;
     }
     
-    for(int i = 0; i < QUEENS_COUNT; i++) {
-
-        if((queens[i].x_axis == DEFUALT_QUEEN_VALUE || queens[i].y_axis == DEFUALT_QUEEN_VALUE) && queen_count) continue;
-
         int x = queen_count;
         for(int y = 0; y < BOARD_SIZE; y++) {
             try.x_axis = x;
@@ -125,7 +124,7 @@ int solve_problem(int queen_count) {
             }
         }
 
-    }
+
 
     return 0;
 
