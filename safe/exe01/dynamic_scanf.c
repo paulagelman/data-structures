@@ -3,14 +3,19 @@
 * Description: safe way to scan
 * Author: Paula Gelman
 -------------------------------------------------------*/
+/*
+הקוד רץ  לפני כן לכן לא הבנתי את הredo
+כי MAX_SIZE הוא גודל שמור -בשבילו הבאתי את ה
+ #include <limits.h>
+ברגע שאני מנסה ליצור לו דפיין אני דורסת את הגודל הקיים וזה עושה לי שגיאה:()
 
+*/
 #include <stdio.h>  
 #include <stdlib.h>    
 #include <limits.h>//I found on the internet a way to check what the  MAX SIZE
                   //  of size_t
 
 #define INITIAL_SIZE 12 // initial buffer size (in case of int:10 digits,'-','\0')
-
 char* dyn_scanf(void) {
     char *buffer = NULL; // dynamic string
     size_t size = 0;  // current  size of buffer
